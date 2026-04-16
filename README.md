@@ -6,6 +6,7 @@ IntelliPrep AI
 - Includes UI improvements and charts
 
 Run:
+
 pip install -r requirements.txt
 
 python app.py
