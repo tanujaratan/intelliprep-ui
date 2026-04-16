@@ -17,91 +17,213 @@ HTML = """
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
 body {
- font-family: 'Segoe UI', sans-serif;
- background: linear-gradient(to right, #0f172a, #1e293b);
+ font-family: 'Poppins', sans-serif;
+ background: linear-gradient(135deg, #0f172a, #1e3a8a);
  color: white;
  text-align: center;
  padding: 20px;
 }
 
+/* Container Card */
 .container {
- max-width: 800px;
+ max-width: 850px;
  margin: auto;
- background: #1e293b;
- padding: 25px;
- border-radius: 15px;
- box-shadow: 0 0 25px rgba(0,0,0,0.6);
+ background: rgba(30, 41, 59, 0.95);
+ padding: 30px;
+ border-radius: 20px;
+ box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+ backdrop-filter: blur(10px);
 }
 
+/* Titles */
+.title {
+ font-size: 42px;
+ font-weight: 600;
+ margin-bottom: 10px;
+}
+
+.subtitle {
+ color: #94a3b8;
+ margin-bottom: 25px;
+ font-size: 16px;
+}
+
+h2 {
+ color: #38bdf8;
+ margin-bottom: 15px;
+}
+
+/* Buttons */
+button {
+ padding: 12px 24px;
+ margin: 10px;
+ border-radius: 12px;
+ border: none;
+ background: linear-gradient(135deg, #3b82f6, #06b6d4);
+ color: white;
+ font-weight: 500;
+ cursor: pointer;
+ transition: all 0.3s ease;
+}
+
+button:hover {
+ transform: translateY(-2px) scale(1.05);
+ box-shadow: 0 5px 15px rgba(59,130,246,0.4);
+}
+
+/* Textarea */
 textarea {
  width: 95%;
  height: 110px;
- border-radius: 10px;
- padding: 10px;
+ border-radius: 12px;
+ padding: 12px;
  margin: 10px;
  border: none;
  outline: none;
-}
-
-button {
- background: #3b82f6;
+ font-size: 14px;
+ background: #0f172a;
  color: white;
- padding: 10px 20px;
- border: none;
- border-radius: 8px;
- cursor: pointer;
- margin: 5px;
+ box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
 }
 
-button:hover { background: #2563eb; }
+/* Dropdown */
+select {
+ padding: 10px;
+ border-radius: 10px;
+ border: none;
+ margin: 10px;
+ background: #0f172a;
+ color: white;
+}
 
-h2 { color: #38bdf8; }
-.result { margin-top: 10px; }
+/* Navigation Tabs */
+.nav {
+ margin-bottom: 20px;
+}
 
+/* Divider */
+hr {
+ border: none;
+ height: 1px;
+ background: rgba(255,255,255,0.1);
+ margin: 20px 0;
+}
+
+/* Result text */
+.result, p {
+ margin-top: 10px;
+ font-size: 15px;
+}
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<!-- LANDING PAGE -->
+<div id="landing" class="container">
+  <h1 class="title">🚀 IntelliPrep AI</h1>
+  <p class="subtitle">AI-powered Interview & Resume Intelligence</p>
 
-<h2>🚀 IntelliPrep AI</h2>
-<p>AI-powered Interview & Resume Intelligence System</p>
+  <button onclick="openTab('interview')">🎯 Interview Prep</button>
+  <button onclick="openTab('resume')">📄 Resume Checker</button>
+</div>
 
-<select id="question">
-<option>Why should we hire you?</option>
-<option>Describe a challenge you faced</option>
-<option>Tell me about yourself</option>
+
+<!-- MAIN APP -->
+<div id="mainApp" class="container" style="display:none;">
+
+  <!-- NAV -->
+  <div class="nav">
+    <button onclick="switchTab('interview')">Interview</button>
+    <button onclick="switchTab('resume')">Resume</button>
+    <button onclick="goHome()">🏠 Home</button>
+  </div>
+
+  <!-- INTERVIEW TAB -->
+  <div id="interviewTab">
+
+    <h2>Interview Evaluation</h2>
+
+    <select id="question">
+      <option>Why should we hire you?</option>
+      <option>Describe a challenge you faced</option>
+      <option>Tell me about yourself</option>
+      <option>What are your strengths and weaknesses?</option>
+      <option>Describe a leadership experience</option>
+      <option>Where do you see yourself in 5 years?</option>
+      <option>Tell me about a failure and what you learned</option>
+      <option>Why do you want to join this company?</option>
+      <option>Explain a project you worked on</option>
+      <option>How do you handle pressure or deadlines?</option>
+      <option>What motivates you to work hard?</option>
 </select>
+    
 
-<h3>Interview Evaluation</h3>
-<textarea id="ans" placeholder="Type or speak your answer..."></textarea><br>
+    <textarea id="ans" placeholder="Type or speak your answer..."></textarea>
 
-<button onclick="startVoice()">🎤 Speak</button>
-<button onclick="evalAns()">Evaluate</button>
+    <br>
+    <button onclick="startVoice()">🎤 Speak</button>
+    <button onclick="evalAns()">Evaluate</button>
 
-<p id="res"></p>
+    <p id="res"></p>
 
-<canvas id="chart"></canvas>
+    <canvas id="chart"></canvas>
 
-<hr>
+  </div>
 
-<h3>Resume Analyzer</h3>
 
-<textarea id="resume" placeholder="Paste resume text..."></textarea><br>
-<button onclick="analyzeText()">Analyze Text</button>
+  <!-- RESUME TAB -->
+  <div id="resumeTab" style="display:none;">
 
-<br><br>
+    <h2>Resume Analyzer</h2>
 
-<input type="file" id="pdfFile">
-<button onclick="uploadPDF()">Upload PDF</button>
+    <textarea id="resume" placeholder="Paste resume text..."></textarea>
 
-<p id="res2"></p>
+    <br>
+    <button onclick="analyzeText()">Analyze Text</button>
+
+    <br><br>
+
+    <input type="file" id="pdfFile">
+    <button onclick="uploadPDF()">Upload PDF</button>
+
+    <p id="res2"></p>
+
+  </div>
 
 </div>
 
+
 <script>
+
+//// ---------------- NEW TAB LOGIC ---------------- ////
+
+function openTab(tab){
+  document.getElementById("landing").style.display = "none";
+  document.getElementById("mainApp").style.display = "block";
+  switchTab(tab);
+}
+
+function switchTab(tab){
+  document.getElementById("interviewTab").style.display = "none";
+  document.getElementById("resumeTab").style.display = "none";
+
+  if(tab === "interview"){
+    document.getElementById("interviewTab").style.display = "block";
+  } else {
+    document.getElementById("resumeTab").style.display = "block";
+  }
+}
+
+function goHome(){
+  document.getElementById("landing").style.display = "block";
+  document.getElementById("mainApp").style.display = "none";
+}
+
+//// ---------------- EXISTING FUNCTIONS (UNCHANGED) ---------------- ////
 
 // Voice
 function startVoice(){
@@ -129,40 +251,66 @@ function updateChart(score){
  });
 }
 
-// Evaluate
 async function evalAns(){
- let ans=document.getElementById('ans').value;
+ let ans = document.getElementById('ans').value;
 
- let res=await fetch('/eval',{
-  method:'POST',
-  headers:{'Content-Type':'application/json'},
-  body:JSON.stringify({answer:ans})
- });
+ // ✅ Prevent empty input
+ if(!ans.trim()){
+   alert("Please enter an answer first");
+   return;
+ }
 
- let data=await res.json();
+ // ✅ Show loading (important for demo)
+ document.getElementById('res').innerHTML = "⏳ Evaluating...";
 
- document.getElementById('res').innerHTML =
- "<b>Score:</b> "+data.score+"/10 <br><b>Feedback:</b> "+data.feedback;
+ try {
+   let res = await fetch('/eval',{
+     method:'POST',
+     headers:{'Content-Type':'application/json'},
+     body:JSON.stringify({answer:ans})
+   });
 
- updateChart(data.score);
+   let data = await res.json();
+
+   document.getElementById('res').innerHTML =
+   "<b>Score:</b> "+data.score+"/10 <br><b>Feedback:</b> "+data.feedback;
+
+   updateChart(data.score);
+
+ } catch (error) {
+   document.getElementById('res').innerHTML = "❌ Error evaluating answer";
+ }
 }
 
-// Resume text
 async function analyzeText(){
- let txt=document.getElementById('resume').value;
+ let txt = document.getElementById('resume').value;
 
- let res=await fetch('/resume_text',{
-  method:'POST',
-  headers:{'Content-Type':'application/json'},
-  body:JSON.stringify({text:txt})
- });
+ // ✅ Prevent empty input
+ if(!txt.trim()){
+   alert("Please paste resume text");
+   return;
+ }
 
- let data=await res.json();
+ // ✅ Show loading
+ document.getElementById('res2').innerHTML = "⏳ Analyzing...";
 
- document.getElementById('res2').innerHTML =
- "<b>Detected:</b> "+data.found+
- "<br><b>Role:</b> "+data.role+
- "<br><b>Recommended:</b> "+data.recommendations;
+ try {
+   let res = await fetch('/resume_text',{
+     method:'POST',
+     headers:{'Content-Type':'application/json'},
+     body:JSON.stringify({text:txt})
+   });
+
+   let data = await res.json();
+
+   document.getElementById('res2').innerHTML =
+   "<b>Detected:</b> "+data.found.join(", ")+
+   "<br><b>Role:</b> "+data.role+
+   "<br><b>Recommended:</b> "+data.recommendations;
+
+ } catch (error) {
+   document.getElementById('res2').innerHTML = "❌ Error analyzing resume";
+ }
 }
 
 // Resume PDF
@@ -183,6 +331,7 @@ async function uploadPDF(){
  "<br><b>Role:</b> "+data.role+
  "<br><b>Recommended:</b> "+data.recommendations;
 }
+
 
 </script>
 
